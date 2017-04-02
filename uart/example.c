@@ -29,14 +29,12 @@ int main(void)
 
 	CPU_PRESCALE(0);  // run at 16 MHz
 	uart_init(BAUD_RATE);
-	uart_print("UART Example\r\n");
 	while (1) {
 		if (uart_available()) {
 			c = uart_getchar();
-			uart_print("Byte: ");
 			uart_putchar(c);
-			uart_putchar('\r');
-			uart_putchar('\n');
+			//uart_putchar('\r');
+			//uart_putchar('\n');
 		}
 	}
 }

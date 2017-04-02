@@ -497,13 +497,12 @@ extcoff: $(TARGET).elf
 	@echo $(MSG_EXTENDED_COFF) $(TARGET).cof
 	$(COFFCONVERT) -O coff-ext-avr $< $(TARGET).cof
 
-
-
 # Create final output files (.hex, .eep) from ELF output file.
 %.hex: %.elf
 	@echo
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock -R .signature $< $@
+	teensy_loader_cli --mcu=$(MCU) -w -v $@
 
 %.eep: %.elf
 	@echo
@@ -577,14 +576,6 @@ $(OBJDIR)/%.o : %.S
 # Create preprocessed source for use in sending a bug report.
 %.i : %.c
 	$(CC) -E -mmcu=$(MCU) -I. $(CFLAGS) $< -o $@ 
-
-# Create final output files (.hex, .eep) from ELF output file.
-#%.hex: %.elf
-#	@echo
-#	@echo $(MSG_FLASH) $@
-#	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock -R .signature $< $@
-#	teensy_loader_cli --mcu=$(MCU) -w -v $@
-
 
 # Target: clean project.
 clean: begin clean_list end
