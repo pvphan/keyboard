@@ -1,3 +1,5 @@
+// source: https://www.pjrc.com/teensy/uart.html
+
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <stdint.h>
