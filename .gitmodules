@@ -1,0 +1,9 @@
+[submodule "teensy_loader_cli"]
+	path = teensy_loader_cli
+	url = https://github.com/PaulStoffregen/teensy_loader_cli
+[submodule "tmk_keyboard"]
+	path = tmk_keyboard
+	url = git@github.com:pvphan/tmk_keyboard
+[submodule "ghkb"]
+	path = ghkb
+	url = git@github.com:pvphan/ghkb
