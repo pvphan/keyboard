@@ -7,3 +7,9 @@
 [submodule "ghkb"]
 	path = ghkb
 	url = git@github.com:pvphan/ghkb
+[submodule "bglib_jrow"]
+	path = bglib_jrow
+	url = https://github.com/jrowberg/bglib
+[submodule "boombox"]
+	path = boombox
+	url = git@github.com:theSadnap/boombox

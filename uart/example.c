@@ -56,10 +56,17 @@ void SendBTMessage(uint8_t len1, uint8_t* data1, uint16_t len2, uint8_t* data2)
 
 int main(void)
 {
-	uint8_t c;
-
+	//uint8_t c;
+    
 	CPU_PRESCALE(0);  // run at 16 MHz
 	uart_init(BAUD_RATE);
+
+    ////stop previous operation
+    //ble_cmd_gap_end_procedure();
+    ////get connection status,current command will be handled in response
+    //ble_cmd_connection_get_status(0);
+    //ble_cmd_gap_set_mode
+
 	while (1) {
 		if (uart_available()) {
 			//c = uart_getchar();
