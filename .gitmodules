@@ -13,3 +13,6 @@
 [submodule "boombox"]
 	path = boombox
 	url = git@github.com:theSadnap/boombox
+[submodule "teensy"]
+	path = teensy
+	url = https://github.com/dbrady/teensy
