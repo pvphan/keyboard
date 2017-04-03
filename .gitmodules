@@ -13,3 +13,6 @@
 [submodule "boombox"]
 	path = boombox
 	url = git@github.com:theSadnap/boombox
+[submodule "bgapi_mjbrown"]
+	path = bgapi_mjbrown
+	url = https://github.com/mjbrown/bgapi
