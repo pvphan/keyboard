@@ -16,3 +16,6 @@
 [submodule "bgapi_mjbrown"]
 	path = bgapi_mjbrown
 	url = https://github.com/mjbrown/bgapi
+[submodule "teensy"]
+	path = teensy
+	url = https://github.com/dbrady/teensy

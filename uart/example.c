@@ -65,7 +65,7 @@ int main(void)
     //ble_cmd_gap_end_procedure();
     ////get connection status,current command will be handled in response
     //ble_cmd_connection_get_status(0);
-    //ble_cmd_gap_set_mode
+    ble_cmd_gap_set_mode(2,2);
 
 	while (1) {
 		if (uart_available()) {
