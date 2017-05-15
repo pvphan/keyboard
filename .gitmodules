@@ -10,12 +10,9 @@
 [submodule "bglib_jrow"]
 	path = bglib_jrow
 	url = https://github.com/jrowberg/bglib
-[submodule "boombox"]
-	path = boombox
-	url = git@github.com:theSadnap/boombox
 [submodule "bgapi_mjbrown"]
 	path = bgapi_mjbrown
 	url = https://github.com/mjbrown/bgapi
-[submodule "teensy"]
-	path = teensy
-	url = https://github.com/dbrady/teensy
+#[submodule "teensy"]
+#	path = teensy
+#	url = https://github.com/dbrady/teensy
