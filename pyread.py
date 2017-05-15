@@ -1,7 +1,12 @@
 import time
 import serial
 
-ser = serial.Serial(port='/dev/ttyAMA0', baudrate = 38400)
+try:
+    ser = serial.Serial(port='/dev/ttyAMA0', baudrate = 38400)
+except serial.SerialException:
+    print 'SERIAL DEVICE NOT DETECTED!'
+    exit(0)
+
 
 print 'throwing out: {}'.format(ser.read(1))
 while ser:
