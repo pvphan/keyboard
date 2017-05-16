@@ -2,6 +2,7 @@
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
+#include <util/delay.h>
 #include <stdint.h>
 #include "uart.h"
 
@@ -80,6 +81,9 @@ int main(void)
             uart_putchar('1');
             uart_putchar('2');
             uart_putchar('3');
+			uart_putchar('\r');
+			uart_putchar('\n');
+            _delay_ms(500);
 		}
 	}
 }

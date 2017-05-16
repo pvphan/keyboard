@@ -504,7 +504,7 @@ extcoff: $(TARGET).elf
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock -R .signature $< $@
 	#teensy_loader_cli --mcu=$(MCU) -w -v $@
 	dfu-programmer $(MCU) erase
-	dfu-programmer $(MCU) flash  $(TARGET)
+	dfu-programmer $(MCU) flash $(TARGET).hex
 	dfu-programmer $(MCU) reset
 
 %.eep: %.elf

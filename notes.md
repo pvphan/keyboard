@@ -1,7 +1,7 @@
 Notes:
 ---
 BLE113:
-    - use one of the BLE113 firmware from bglib_jrow for UART with bgapi? (or dig it up from the support site / forum)
+    - use one of the BLE113 firmware from bglib_jrow for UART with bgapi: BGLib_U1A1P_38400_noflow
 
 atmega32u4:
     - get UART working from the mGH60, steal Makefile from blinky_pjrc (or something)
