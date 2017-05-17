@@ -5,5 +5,6 @@ BLE113:
 
 atmega32u4:
     - get UART working from the mGH60, steal Makefile from blinky_pjrc (or something)
+    - use teensy + ble113 to test BGLib
     - UART to BLE113, reference the `uart` folder
     - Switch up pins so RX TX are free for UART, roll in UART stuff to tmk_firmware (gh60), try to get them to work together
