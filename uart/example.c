@@ -13,6 +13,33 @@
 #include "apitypes.h"
 
 
+// FROM blinky.c -----------------------
+#include "usb_debug_only.h"
+#include "print.h"
+
+// Teensy 2.0: LED is active high
+#if defined(__AVR_ATmega32U4__) || defined(__AVR_AT90USB1286__)
+#define LED_ON		(PORTD |= (1<<6))
+#define LED_OFF		(PORTD &= ~(1<<6))
+
+// Teensy 1.0: LED is active low
+#else
+#define LED_ON	(PORTD &= ~(1<<6))
+#define LED_OFF	(PORTD |= (1<<6))
+#endif
+
+#define LED_CONFIG	(DDRD |= (1<<6))
+#define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
+#define DIT 80		/* unit time for morse code */
+
+void morse_character(char c);
+void morse_P(const char *s);
+const unsigned char morse_code_table[];
+
+// /FROM blinky.c -----------------------
+
+
+
 #define BAUD_RATE 38400
 
 #define CPU_PRESCALE(n) (CLKPR = 0x80, CLKPR = (n))
