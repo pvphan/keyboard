@@ -48,12 +48,12 @@ const unsigned char morse_code_table[];
 #define uart_print(s) uart_print_P(PSTR(s))
 void uart_print_P(const char *str)
 {
-	char c;
-	while (1) {
-		c = pgm_read_byte(str++);
-		if (!c) break;
-		uart_putchar(c);
-	}
+    char c;
+    while (1) {
+        c = pgm_read_byte(str++);
+        if (!c) break;
+        uart_putchar(c);
+    }
 }
 
 //this is the callback function which tells the BLE API how to
@@ -65,52 +65,101 @@ void SendBTMessage(uint8_t len1, uint8_t* data1, uint16_t len2, uint8_t* data2)
     //length of the packet must be specified immediately before sending
     //the packet; this line does that
     uart_putchar(len1 + len2);
-     
+
     //this loop sends the header of the BLE message
     for(int i = 0; i < len1; i++)
     {
         uart_putchar(data1[i]);
     }
-     
+
     //this loop sends the payload of the BLE message
     for(int i = 0; i < len2; i++)
     {
         uart_putchar(data2[i]);
     }
-     
+
     //wait until UART is finished sending before continuing
     while(!uart_available());
 }
 
 int main(void)
 {
-	//uint8_t c;
-    
-	CPU_PRESCALE(0);  // run at 16 MHz
-	uart_init(BAUD_RATE);
+    uint8_t c;
+    uint8_t c0;
+    uint8_t c1;
+    uint8_t c2;
+    uint8_t c3;
+    uint8_t i;
+
+    CPU_PRESCALE(0);  // run at 16 MHz
+    uart_init(BAUD_RATE);
+    LED_OFF;
 
     ////stop previous operation
     //ble_cmd_gap_end_procedure();
     ////get connection status,current command will be handled in response
     //ble_cmd_connection_get_status(0);
-    ble_cmd_gap_set_mode(2,2);
+    //ble_cmd_gap_set_mode(2,2);
 
-	while (1) {
-		if (uart_available()) {
-			//c = uart_getchar();
-			//uart_putchar(c);
-			//uart_putchar('\r');
-			//uart_putchar('\n');
+    while (1) {
+        if (uart_available()) {
+            c0 = uart_getchar();
+            if (c0 == 0x80) {
+                c1 = uart_getchar();
+                if (c1 == 0x0C) {
+                    c2 = uart_getchar();
+                    if (c2 == 0x00) {
+                        c3 = uart_getchar();
+                        if (c3 == 0x00) {
 
-            uart_putchar('a');
-            uart_putchar('b');
-            uart_putchar('c');
-            uart_putchar('1');
-            uart_putchar('2');
-            uart_putchar('3');
-			uart_putchar('\r');
-			uart_putchar('\n');
-            _delay_ms(500);
-		}
-	}
+                            // get remaining 12 info bytes
+                            for (i = 0; i < 12; i++) {
+                                c = uart_getchar();
+                            }
+
+                            // send GAP set mode request
+                            uart_putchar(0x00);
+                            uart_putchar(0x02);
+                            uart_putchar(0x06);
+                            uart_putchar(0x01);
+                            uart_putchar(0x02);
+                            uart_putchar(0x02);
+
+                            _delay_ms(250);
+
+                            // recv GAP set mode response
+                            c = uart_getchar();
+
+                            // TODO: BREAKING HERE! not getting a response from BLE, 
+                            //       probably a problem with `uart_putchar()`, maybe try the 
+                            //       ble-1.5.0_src/thermometer-demo version of uart.c/.h?
+                            if (c == 0x00) {
+                                c = uart_getchar();
+                                LED_ON;
+                                if (c==0x02) {
+                                    c = uart_getchar();
+                                    LED_ON;
+                                    if (c==0x06) {
+                                        c = uart_getchar();
+                                        LED_ON;
+                                        if (c==0x01) {
+                                            LED_ON;
+                                            c = uart_getchar();
+                                            if (c==0x00) {
+                                                c = uart_getchar();
+                                                if (c==0x00) {
+                                                    LED_ON;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            _delay_ms(250);
+        }
+    }
 }

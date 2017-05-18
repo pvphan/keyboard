@@ -432,6 +432,9 @@ sizebefore:
 sizeafter:
 	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); \
 	2>/dev/null; echo; fi
+	sudo dfu-programmer $(MCU) erase
+	sudo dfu-programmer $(MCU) flash $(TARGET).hex
+	sudo dfu-programmer $(MCU) reset
 
 
 # Display compiler version information.
@@ -449,9 +452,9 @@ gccversion :
 
 # Program the device -- atmega32u4 (DFU bootloader, e.g. gh60)
 program: $(TARGET).hex $(TARGET).eep
-	dfu-programmer $(MCU) erase
-	dfu-programmer $(MCU) flash $(TARGET).hex
-	dfu-programmer $(MCU) reset
+	sudo dfu-programmer $(MCU) erase
+	sudo dfu-programmer $(MCU) flash $(TARGET).hex
+	sudo dfu-programmer $(MCU) reset
 
 
 # Generate avr-gdb config/init file which does the following:
