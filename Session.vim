@@ -12,14 +12,15 @@ badd +3 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/project-ble113-m256k.bgp
 badd +3 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/hardware_usb.xml
 badd +7 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/hardware_nousb.xml
 badd +3 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/gatt.xml
-badd +0 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/
+badd +1 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/
 badd +1 notes.md
 badd +1 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/cdc.xml
 badd +7 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/project-ble112.bgproj
 badd +31 bglib_jrow/Arduino/BGLib.h
 badd +1032 bglib_jrow/Arduino/BGLib.cpp
 badd +233 bglib_jrow/Arduino/BGLibConfig.h
-badd +6 uart/example.c
+badd +19 uart/example.c
+badd +450 uart/Makefile
 argglobal
 silent! argdel *
 argadd bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/
@@ -46,7 +47,7 @@ exe s:l
 normal! zt
 1033
 normal! 0
-tabedit uart/example.c
+tabedit bglib_jrow/Arduino/BGLib.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -68,11 +69,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 25) / 50)
+let s:l = 1034 - ((23 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
+1034
 normal! 0
 wincmd w
 argglobal
@@ -86,14 +87,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 25) / 50)
+let s:l = 8 - ((7 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
+8
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
 exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
 tabnext 2

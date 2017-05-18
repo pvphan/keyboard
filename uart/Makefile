@@ -434,16 +434,24 @@ sizeafter:
 	2>/dev/null; echo; fi
 
 
-
 # Display compiler version information.
 gccversion : 
 	@$(CC) --version
 
 
+# Program the device -- AVRDUDE
+#program: $(TARGET).hex $(TARGET).eep
+#	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
-# Program the device.  
+# Program the device -- teensy
+#program: $(TARGET).hex $(TARGET).eep
+#	teensy_loader_cli --mcu=$(MCU) -w -v $@
+
+# Program the device -- atmega32u4 (DFU bootloader, e.g. gh60)
 program: $(TARGET).hex $(TARGET).eep
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+	dfu-programmer $(MCU) erase
+	dfu-programmer $(MCU) flash $(TARGET).hex
+	dfu-programmer $(MCU) reset
 
 
 # Generate avr-gdb config/init file which does the following:
@@ -502,10 +510,6 @@ extcoff: $(TARGET).elf
 	@echo
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock -R .signature $< $@
-	#teensy_loader_cli --mcu=$(MCU) -w -v $@
-	dfu-programmer $(MCU) erase
-	dfu-programmer $(MCU) flash $(TARGET).hex
-	dfu-programmer $(MCU) reset
 
 %.eep: %.elf
 	@echo
