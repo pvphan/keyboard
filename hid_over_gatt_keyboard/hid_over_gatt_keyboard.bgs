@@ -1,0 +1,103 @@
+# ================================================================
+# BGScript demo: HID-over-GATT keyboard
+# http://www.bluegiga.com/support
+# ----------------------------------------------------------------
+#
+# CHANGELOG:
+#   2015-01-19 - GATT descriptor read requires bonding for iOS 8.1
+#   2014-02-25 - Initial release
+#
+# ================================================================
+
+# NOTE: this example will send a Shift+A sequence once per second
+# to a connected device. This is accomplished with two separate HID
+# reports, one which has the left-shift modifier key down and the
+# 'A' key down, and the next one of which has no keys down (i.e. all
+# keys released). This example uses the standard HID descriptor for
+# keyboard functionality, which is the same one used in our iWRAP
+# HID profile application note. You can refer to that document for
+# a bit more information on the descriptor and its meaning.
+
+dim report(8)       # buffer for building attribute value (8-byte keyboard HID report)
+dim hid_attribute   # controls which attribute is used for writing HID data (normal or boot mode)
+
+event system_boot(major, minor, patch, build, ll_version, protocol, hw)
+    # start advertising in connectable mode
+    call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)
+	
+    # remove all bonds (optional! normally this shouldn't be run on every boot)
+    #call sm_delete_bonding($ff)
+    
+    # enable bondable mode for systems which want to use it
+	call sm_set_bondable_mode(1)
+    
+    # enable interrupt on P0_0 and P0_1 rising edge ('A' and 'Z' keys)
+    # (parameters are port=0, bitmask=0b00000011, edge=rising)
+    call hardware_io_port_config_irq(0, $03, 0)
+
+    # use default report mode for keyboard
+    hid_attribute = hid_keyboard_in
+end
+
+# catch button press for P0_0, P0_1, P1_6 (active HIGH configuration, hardware.xml pulls it low)
+event hardware_io_port_status(delta, port, irq, state)
+    if port = 0 then
+        # build HID report:
+        # 0:0x02 = left shift (should be capital A or Z unless caps lock is on)
+        # 1:0x00 = RESERVED
+        # 2:0x?? = key down (will be set to either A or Z code below)
+        # 3:0x00 = empty key slot
+        # 4:0x00 = empty key slot
+        # 5:0x00 = empty key slot
+        # 6:0x00 = empty key slot
+        # 7:0x00 = empty key slot
+        report(0:8) = "\x02\x00\x00\x00\x00\x00\x00\x00"
+        if (irq & $01) = $01 then
+            # P0_0 is HIGH and the source of this interrupt, so use "A" code
+            report(2:1) = $04   # "A" key code, 4
+        end if
+        if (irq & $02) = $02 then
+            # P0_1 is HIGH and the source of this interrupt, so use "Z" code
+            report(2:1) = $1d   # "Z" key code, 29
+        end if
+        
+        # write HID report
+        call attributes_write(hid_attribute, 0, 8, report(0:8))
+
+        # build and write HID report for "release" action:
+        # 0:0x00 = no modifiers (i.e. release previous left shift)
+        # 1:0x00 = RESERVED
+        # 2:0x00 = empty key slot (i.e. release previous 'A')
+        # 3:0x00 = empty key slot
+        # 4:0x00 = empty key slot
+        # 5:0x00 = empty key slot
+        # 6:0x00 = empty key slot
+        # 7:0x00 = empty key slot
+        report(0:8) = "\x00\x00\x00\x00\x00\x00\x00\x00"
+        call attributes_write(hid_attribute, 0, 8, report(0:8))
+    end if
+end
+
+event connection_disconnected(handle, result)
+    # start advertising again after disconnection
+    call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)
+end
+
+event connection_status(connection, flags, address, address_type, conn_interval, timeout, latency, bonding)
+    if flags & connection_completed then
+        # always initialize protocol mode to default 1 after connection
+        call attributes_write(hid_protocol_mode, 0, 1, 1)
+        hid_attribute = hid_keyboard_in
+    end if
+end
+
+event attributes_value(connection, reason, handle, offset, value_len, value_data)
+    if value_data(0:1) = 1 then
+        # switched to normal report mode
+        hid_attribute = hid_keyboard_in
+    end if
+    if value_data(0:1) = 2 then
+        # switched to boot report mode
+        hid_attribute = hid_boot_keyboard_in
+    end if
+end
