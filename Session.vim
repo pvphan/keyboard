@@ -17,25 +17,25 @@ badd +60 uart/Makefile
 badd +60 uart/uart.c
 badd +178 ble-1.5.0_src/thermometer-demo/uart.c
 badd +87 hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
-badd +10 hid_over_gatt_keyboard/gatt.xml
+badd +16 hid_over_gatt_keyboard/gatt.xml
 badd +1 hid_over_gatt_keyboard/hardware.xml
 badd +3 hid_over_gatt_keyboard/project-ble113-m256k.bgproj
 badd +2 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/project-ble113-m256k.bgproj
 badd +0 uart/ble113_src/gatt.xml
 argglobal
 silent! argdel *
-edit hid_over_gatt_keyboard/gatt.xml
+edit uart/ble113_src/gatt.xml
 set splitbelow splitright
 wincmd _ | wincmd |
-split
-1wincmd k
+vsplit
+1wincmd h
 wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe '1resize ' . ((&lines * 25 + 26) / 52)
-exe '2resize ' . ((&lines * 24 + 26) / 52)
+exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
+exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -46,15 +46,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 12) / 25)
+let s:l = 83 - ((17 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
-normal! 027|
+83
+normal! 09|
 wincmd w
 argglobal
-edit uart/ble113_src/gatt.xml
+edit hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -64,16 +64,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 10 - ((9 * winheight(0) + 12) / 24)
+let s:l = 101 - ((47 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-10
+101
 normal! 025|
 wincmd w
-2wincmd w
-exe '1resize ' . ((&lines * 25 + 26) / 52)
-exe '2resize ' . ((&lines * 24 + 26) / 52)
+exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
+exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
