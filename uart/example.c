@@ -82,13 +82,27 @@ void SendBTMessage(uint8_t len1, uint8_t* data1, uint16_t len2, uint8_t* data2)
     while(!uart_available());
 }
 
+void blink_twice() {
+    LED_ON;
+    _delay_ms(500);
+    LED_OFF;
+    _delay_ms(500);
+    LED_ON;
+    _delay_ms(500);
+    LED_OFF;
+}
+
+uint8_t ble_woke_score = 0;
+uint8_t ble_woke_up[4] = {0x80, 0x0C, 0x00, 0x00};
+uint8_t bytes_make_ble_discoverable[7] = {0x06, 0x00, 0x02, 0x06, 0x01, 0x02, 0x02};
+uint8_t ble_discovered_response_score = 0;
+uint8_t ble_discovered_response[6] = {0x00, 0x02, 0x06, 0x01, 0x00, 0x00};
+
+uint8_t has_connected = 0; // 0 == false, 1 == true
+
 int main(void)
 {
     uint8_t c;
-    uint8_t c0;
-    uint8_t c1;
-    uint8_t c2;
-    uint8_t c3;
     uint8_t i;
 
     CPU_PRESCALE(0);  // run at 16 MHz
@@ -100,66 +114,52 @@ int main(void)
     ////get connection status,current command will be handled in response
     //ble_cmd_connection_get_status(0);
     //ble_cmd_gap_set_mode(2,2);
-
     while (1) {
+
         if (uart_available()) {
-            c0 = uart_getchar();
-            if (c0 == 0x80) {
-                c1 = uart_getchar();
-                if (c1 == 0x0C) {
-                    c2 = uart_getchar();
-                    if (c2 == 0x00) {
-                        c3 = uart_getchar();
-                        if (c3 == 0x00) {
 
-                            // get remaining 12 info bytes
-                            for (i = 0; i < 12; i++) {
-                                c = uart_getchar();
-                            }
+            for (i=0; i<4; i++) {
 
-                            // send GAP set mode request
-                            uart_putchar(0x00);
-                            uart_putchar(0x02);
-                            uart_putchar(0x06);
-                            uart_putchar(0x01);
-                            uart_putchar(0x02);
-                            uart_putchar(0x02);
+                c = uart_getchar();
 
-                            _delay_ms(250);
-
-                            // recv GAP set mode response
-                            c = uart_getchar();
-
-                            // TODO: BREAKING HERE! not getting a response from BLE, 
-                            //       probably a problem with `uart_putchar()`, maybe try the 
-                            //       ble-1.5.0_src/thermometer-demo version of uart.c/.h?
-                            if (c == 0x00) {
-                                c = uart_getchar();
-                                LED_ON;
-                                if (c==0x02) {
-                                    c = uart_getchar();
-                                    LED_ON;
-                                    if (c==0x06) {
-                                        c = uart_getchar();
-                                        LED_ON;
-                                        if (c==0x01) {
-                                            LED_ON;
-                                            c = uart_getchar();
-                                            if (c==0x00) {
-                                                c = uart_getchar();
-                                                if (c==0x00) {
-                                                    LED_ON;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (c == ble_woke_up[i]) {
+                    ble_woke_score++;
                 }
             }
-            _delay_ms(250);
+
+            // get remaining 12 info bytes
+            for (i = 0; i < 12; i++) {
+                c = uart_getchar();
+            }
+
+            // hooray! ble woke up!
+            if (ble_woke_score == 4) {
+                blink_twice();
+            }
+
+            // send GAP set mode request
+            for (i=0; i<7; i++) {
+                c = bytes_make_ble_discoverable[i];
+                uart_putchar(c);
+            }
+
+            // get response
+            for (i=0; i<6; i++) {
+                c = uart_getchar();
+
+                if (c == ble_discovered_response[i]) {
+                    ble_discovered_response_score++;
+                }
+            }
+
+            if (ble_discovered_response_score == 6) {
+                LED_ON;
+                has_connected = 1;
+            }
+        }
+
+        if (has_connected == 1) {
+            // TODO
         }
     }
 }
