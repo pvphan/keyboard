@@ -33,6 +33,8 @@ badd +28 tmk_keyboard/tmk_core/common/uart.c
 badd +52 tmk_keyboard/tmk_core/common/keyboard.c
 badd +632 tmk_keyboard/tmk_core/common/command.c
 badd +80 tmk_keyboard/tmk_core/protocol/bluefruit/main.c
+badd +44 ble60_main/Makefile
+badd +0 main.c
 argglobal
 silent! argdel *
 set stal=2
@@ -90,12 +92,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 17) / 34)
+let s:l = 48 - ((15 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 0
+48
+normal! 05|
 wincmd w
 argglobal
 edit ble-1.5.0_src/thermometer-demo/uart.h
@@ -126,12 +128,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 38 - ((15 * winheight(0) + 17) / 34)
+let s:l = 311 - ((30 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-38
-normal! 0
+311
+normal! 09|
 wincmd w
 exe '1resize ' . ((&lines * 15 + 26) / 53)
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
@@ -163,12 +165,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 15 - ((14 * winheight(0) + 25) / 50)
+let s:l = 138 - ((24 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-15
-normal! 0
+138
+normal! 05|
 wincmd w
 argglobal
 edit hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
@@ -212,12 +214,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 97 - ((30 * winheight(0) + 25) / 50)
+let s:l = 54 - ((37 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-97
-normal! 021|
+54
+normal! 05|
 wincmd w
 argglobal
 edit tmk_keyboard/tmk_core/common/keyboard.c
@@ -230,16 +232,38 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 99 - ((24 * winheight(0) + 25) / 50)
+let s:l = 177 - ((49 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-99
-normal! 06|
+177
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
 exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
-tabnext 3
+tabedit ble60_main/Makefile
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 49 - ((23 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+49
+normal! 0
+tabnext 4
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
