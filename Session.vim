@@ -10,23 +10,23 @@ endif
 set shortmess=aoO
 badd +2 uart/apitypes.h
 badd +179 uart/cmd_def.h
-badd +90 uart/example.c
+badd +1 uart/example.c
 badd +186 ble-1.5.0_src/thermometer-demo/main.c
 badd +98 blinky_pjrc/blinky.c
 badd +60 uart/Makefile
 badd +11 uart/uart.c
 badd +8 ble-1.5.0_src/thermometer-demo/uart.c
-badd +22 hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
-badd +45 hid_over_gatt_keyboard/gatt.xml
-badd +1 hid_over_gatt_keyboard/hardware.xml
+badd +55 hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
+badd +46 hid_over_gatt_keyboard/gatt.xml
+badd +3 hid_over_gatt_keyboard/hardware.xml
 badd +3 hid_over_gatt_keyboard/project-ble113-m256k.bgproj
 badd +2 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/project-ble113-m256k.bgproj
 badd +28 uart/ble113_src/gatt.xml
 badd +11 ble-1.5.0_src/thermometer-demo/stubs.c
 badd +1 ble-1.5.0_src/thermometer-demo/uart.h
-badd +4 uart/uart.h
+badd +1 uart/uart.h
 badd +6 notes.md
-badd +1256 bglib_jrow/Arduino/BGLib.cpp
+badd +1255 bglib_jrow/Arduino/BGLib.cpp
 badd +155 uart/cmd_def.c
 argglobal
 silent! argdel *
@@ -158,12 +158,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 168 - ((34 * winheight(0) + 25) / 50)
+let s:l = 223 - ((14 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-168
-normal! 012|
+223
+normal! 016|
 wincmd w
 argglobal
 edit hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
@@ -176,14 +176,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 32 - ((16 * winheight(0) + 25) / 50)
+let s:l = 31 - ((30 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-32
-normal! 03|
+31
+normal! 07|
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
 exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
 tabedit uart/example.c
@@ -202,13 +201,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 101 - ((19 * winheight(0) + 25) / 50)
+let s:l = 99 - ((17 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-101
-normal! 049|
-2wincmd w
+99
+normal! 0
 tabnext 2
 set stal=1
 if exists('s:wipebuf')
