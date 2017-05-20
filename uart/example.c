@@ -84,12 +84,13 @@ void SendBTMessage(uint8_t len1, uint8_t* data1, uint16_t len2, uint8_t* data2)
 
 void blink_twice() {
     LED_ON;
-    _delay_ms(500);
+    _delay_ms(250);
     LED_OFF;
-    _delay_ms(500);
+    _delay_ms(250);
     LED_ON;
-    _delay_ms(500);
+    _delay_ms(250);
     LED_OFF;
+    _delay_ms(250);
 }
 
 uint8_t ble_woke_score = 0;
@@ -97,8 +98,13 @@ uint8_t ble_woke_up[4] = {0x80, 0x0C, 0x00, 0x00};
 uint8_t bytes_make_ble_discoverable[7] = {0x06, 0x00, 0x02, 0x06, 0x01, 0x02, 0x02};
 uint8_t ble_discovered_response_score = 0;
 uint8_t ble_discovered_response[6] = {0x00, 0x02, 0x06, 0x01, 0x00, 0x00};
+uint8_t ble_keystroke_header[9] = {0x10, 0x00, 0x04, 0x02, 0x00, 0x01, 0x00, 0x00, 0x08};
+uint8_t hid_letter_A[8] = {0x02, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t host_received_A_response[6] = {0x00, 0x02, 0x02, 0x00, 0x00, 0x00};
+uint8_t host_received_A_response_score = 0;
 
 uint8_t has_connected = 0; // 0 == false, 1 == true
+uint8_t got_A = 0; // 0 == false, 1 == true
 
 int main(void)
 {
@@ -153,13 +159,47 @@ int main(void)
             }
 
             if (ble_discovered_response_score == 6) {
-                LED_ON;
                 has_connected = 1;
             }
         }
 
         if (has_connected == 1) {
-            // TODO
+
+            // TODO: bond here
+
+            // try to send keystrokes
+            
+            // send keystroke header
+            for (i=0; i<9; i++) {
+                c = ble_keystroke_header[i];
+                uart_putchar(c);
+            }
+
+            // send keystroke 'A' payload
+            for (i=0; i<8; i++) {
+                c = hid_letter_A[i];
+                uart_putchar(c);
+            }
+
+            // get response
+            for (i=0; i<6; i++) {
+                c = uart_getchar();
+
+                if (c == host_received_A_response[i]) {
+                    host_received_A_response_score++;
+                }
+            }
+
+            if (host_received_A_response_score == 6) {
+                got_A = 1;
+            }
+
+            if (got_A == 1) {
+                LED_ON;
+            }
+
+            _delay_ms(1000);
+
         }
     }
 }

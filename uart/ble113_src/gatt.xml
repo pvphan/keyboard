@@ -18,6 +18,7 @@
             <properties read="true" const="true" />
             <!-- 128: Generic Computer, Generic category -->
             <!-- <value type="hex">0080</value> -->
+            <!-- Keyboard -->
             <value type="hex">C103</value>
         </characteristic>
 

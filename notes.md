@@ -1,9 +1,9 @@
 Notes:
 ---
 
-NEXT GOAL: get BLE113 advertising/connecting! 
-            - do hacked BGAPI (binary)
-            - flesh out more of BGLib implementation for `avr-gcc`
+NEXT GOAL: 
+    - flesh out more of BGLib implementation for `avr-gcc`
+        . implement attributes_write
 
 BLE113:
     - use one of the BLE113 firmware from bglib_jrow for UART with bgapi: BGLib_U1A1P_38400_noflow

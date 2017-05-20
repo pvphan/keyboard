@@ -16,15 +16,18 @@ badd +98 blinky_pjrc/blinky.c
 badd +60 uart/Makefile
 badd +11 uart/uart.c
 badd +8 ble-1.5.0_src/thermometer-demo/uart.c
-badd +15 hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
-badd +16 hid_over_gatt_keyboard/gatt.xml
+badd +22 hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
+badd +45 hid_over_gatt_keyboard/gatt.xml
 badd +1 hid_over_gatt_keyboard/hardware.xml
 badd +3 hid_over_gatt_keyboard/project-ble113-m256k.bgproj
 badd +2 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/project-ble113-m256k.bgproj
-badd +21 uart/ble113_src/gatt.xml
+badd +28 uart/ble113_src/gatt.xml
 badd +11 ble-1.5.0_src/thermometer-demo/stubs.c
-badd +0 ble-1.5.0_src/thermometer-demo/uart.h
-badd +0 uart/uart.h
+badd +1 ble-1.5.0_src/thermometer-demo/uart.h
+badd +4 uart/uart.h
+badd +6 notes.md
+badd +1256 bglib_jrow/Arduino/BGLib.cpp
+badd +155 uart/cmd_def.c
 argglobal
 silent! argdel *
 set stal=2
@@ -64,11 +67,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 9 - ((8 * winheight(0) + 7) / 15)
+let s:l = 10 - ((9 * winheight(0) + 7) / 15)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-9
+10
 normal! 027|
 wincmd w
 argglobal
@@ -82,12 +85,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 52 - ((13 * winheight(0) + 17) / 34)
+let s:l = 51 - ((12 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 0
+51
+normal! 05|
 wincmd w
 argglobal
 edit ble-1.5.0_src/thermometer-demo/uart.h
@@ -133,7 +136,57 @@ exe '3resize ' . ((&lines * 15 + 26) / 53)
 exe 'vert 3resize ' . ((&columns * 105 + 105) / 211)
 exe '4resize ' . ((&lines * 34 + 26) / 53)
 exe 'vert 4resize ' . ((&columns * 105 + 105) / 211)
-tabedit uart/ble113_src/gatt.xml
+tabedit uart/example.c
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
+exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 168 - ((34 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+168
+normal! 012|
+wincmd w
+argglobal
+edit hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 32 - ((16 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+32
+normal! 03|
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
+exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
+tabedit uart/example.c
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -149,12 +202,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 100 - ((24 * winheight(0) + 25) / 50)
+let s:l = 101 - ((19 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-100
-normal! 031|
+101
+normal! 049|
+2wincmd w
 tabnext 2
 set stal=1
 if exists('s:wipebuf')
