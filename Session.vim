@@ -10,8 +10,8 @@ endif
 set shortmess=aoO
 badd +2 uart/apitypes.h
 badd +179 uart/cmd_def.h
-badd +1 uart/example.c
-badd +186 ble-1.5.0_src/thermometer-demo/main.c
+badd +75 uart/example.c
+badd +34 ble-1.5.0_src/thermometer-demo/main.c
 badd +98 blinky_pjrc/blinky.c
 badd +60 uart/Makefile
 badd +11 uart/uart.c
@@ -28,6 +28,11 @@ badd +1 uart/uart.h
 badd +6 notes.md
 badd +1255 bglib_jrow/Arduino/BGLib.cpp
 badd +155 uart/cmd_def.c
+badd +149 ble-1.5.0_src/scan_example/main.c
+badd +28 tmk_keyboard/tmk_core/common/uart.c
+badd +52 tmk_keyboard/tmk_core/common/keyboard.c
+badd +632 tmk_keyboard/tmk_core/common/command.c
+badd +80 tmk_keyboard/tmk_core/protocol/bluefruit/main.c
 argglobal
 silent! argdel *
 set stal=2
@@ -67,11 +72,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 10 - ((9 * winheight(0) + 7) / 15)
+let s:l = 7 - ((6 * winheight(0) + 7) / 15)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-10
+7
 normal! 027|
 wincmd w
 argglobal
@@ -85,12 +90,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 51 - ((12 * winheight(0) + 17) / 34)
+let s:l = 3 - ((2 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-51
-normal! 05|
+3
+normal! 0
 wincmd w
 argglobal
 edit ble-1.5.0_src/thermometer-demo/uart.h
@@ -121,12 +126,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 193 - ((13 * winheight(0) + 17) / 34)
+let s:l = 38 - ((15 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-193
-normal! 09|
+38
+normal! 0
 wincmd w
 exe '1resize ' . ((&lines * 15 + 26) / 53)
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
@@ -158,12 +163,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 223 - ((14 * winheight(0) + 25) / 50)
+let s:l = 15 - ((14 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-223
-normal! 016|
+15
+normal! 0
 wincmd w
 argglobal
 edit hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
@@ -176,21 +181,27 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 31 - ((30 * winheight(0) + 25) / 50)
+let s:l = 96 - ((41 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-31
-normal! 07|
+96
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
 exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
-tabedit uart/example.c
+tabedit tmk_keyboard/tmk_core/protocol/bluefruit/main.c
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
+exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -201,13 +212,34 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 99 - ((17 * winheight(0) + 25) / 50)
+let s:l = 97 - ((30 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+97
+normal! 021|
+wincmd w
+argglobal
+edit tmk_keyboard/tmk_core/common/keyboard.c
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 99 - ((24 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 99
-normal! 0
-tabnext 2
+normal! 06|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
+exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
+tabnext 3
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

@@ -12,7 +12,6 @@
 #include "cmd_def.c"
 #include "apitypes.h"
 
-
 // FROM blinky.c -----------------------
 #include "usb_debug_only.h"
 #include "print.h"

@@ -124,4 +124,3 @@ ISR(USART1_RX_vect)
         rx_buffer_head = i;
     }
 }
-
