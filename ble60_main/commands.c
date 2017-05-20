@@ -8,6 +8,7 @@
  ****************************************************************************/
 
 #include "cmd_def.h"
+
 void ble_default(const void*v)
 {
 }
@@ -454,6 +455,7 @@ void ble_rsp_dfu_flash_upload_finish(const struct ble_msg_dfu_flash_upload_finis
 
 void ble_evt_system_boot(const struct ble_msg_system_boot_evt_t *msg)
 {
+    //TODO: handle system_boot event
 }
 
 void ble_evt_system_debug(const struct ble_msg_system_debug_evt_t *msg)

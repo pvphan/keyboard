@@ -31,8 +31,8 @@
 #include "uart.h"
 
 // These buffers may be any size from 2 to 256 bytes.
+#define TX_BUFFER_SIZE 64
 #define RX_BUFFER_SIZE 64
-#define TX_BUFFER_SIZE 40
 
 static volatile uint8_t tx_buffer[TX_BUFFER_SIZE];
 static volatile uint8_t tx_buffer_head;
@@ -62,11 +62,11 @@ void uart_putchar(uint8_t c)
     i = tx_buffer_head + 1;
     if (i >= TX_BUFFER_SIZE) i = 0;
     while (tx_buffer_tail == i) ; // wait until space in buffer
-    //cli();
+    //cli(); // was commented
     tx_buffer[i] = c;
     tx_buffer_head = i;
     UCSR1B = (1<<RXEN1) | (1<<TXEN1) | (1<<RXCIE1) | (1<<UDRIE1);
-    //sei();
+    //sei(); // was commented
 }
 
 // Receive a byte
