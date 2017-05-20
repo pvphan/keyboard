@@ -68,7 +68,8 @@
     </characteristic>
     <characteristic uuid="2a4b">
       <!-- Report map example from USB HID Specification -->
-      <properties read="true" authenticated_read="true" const="true" />
+      <!-- <properties read="true" authenticated_read="true" const="true" /> -->
+      <properties read="true" authenticated_read="false" const="true" />
       <value type="hex">05010906A101050719E029E71500250175019508810295017508810195057501050819012905910295017503910195067508150025650507190029658100C0</value>
     </characteristic>
     <characteristic uuid="2a4a">
