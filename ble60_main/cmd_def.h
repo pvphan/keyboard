@@ -21,11 +21,14 @@
  *      BGLIB uses PACKSTRUCT macro to add packing information for structures:
  *      PACKSTRUCT(struct wifi_msg_dfu_reset_cmd_t
  *      {
- *          uint8	dfu;
+ *          uint8_t	dfu;
  *      });
  *
  *
  ****************************************************************************/
+
+// vinhs
+#include <stdint.h>
 
 /*lint -save --e{528,572,778,845,835,849}*/
 #include "apitypes.h"
@@ -62,26 +65,26 @@ struct ble_cmd_packet;
 typedef void (*ble_cmd_handler)(const void*);
 struct ble_header
 {
-    uint8  type_hilen;
-    uint8  lolen;
-    uint8  cls;
-    uint8  command;
+    uint8_t  type_hilen;
+    uint8_t  lolen;
+    uint8_t  cls;
+    uint8_t  command;
 };
 
 
 struct ble_msg
 {
     struct ble_header    hdr;
-    uint32               params;
+    uint32_t               params;
     ble_cmd_handler       handler;
 };       
 
 const struct ble_msg * ble_find_msg_hdr(struct ble_header hdr);
 const struct ble_msg * ble_find_msg_hdr_r(struct ble_header hdr);
-const struct ble_msg * ble_get_msg(uint8 idx) ;
+const struct ble_msg * ble_get_msg(uint8_t idx) ;
 const struct ble_msg * ble_get_msg_hdr(struct ble_header hdr) ;
-extern void (*bglib_output)(uint8 len1,uint8* data1,uint16 len2,uint8* data2);
-void ble_send_message(uint8 msgid,...);
+extern void (*bglib_output)(uint8_t len1, uint8_t* data1, uint16_t len2, uint8_t* data2);
+void ble_send_message(uint8_t msgid,...);
 
 enum system_endpoints
 {
@@ -873,7 +876,7 @@ typedef enum ble_error
 #endif
 PACKSTRUCT(struct ble_msg_system_reset_cmd_t
 {
-	uint8	boot_in_dfu;
+	uint8_t	boot_in_dfu;
 });
 
 PACKSTRUCT(struct ble_msg_system_address_get_rsp_t
@@ -883,118 +886,118 @@ PACKSTRUCT(struct ble_msg_system_address_get_rsp_t
 
 PACKSTRUCT(struct ble_msg_system_reg_write_cmd_t
 {
-	uint16	address;
-	uint8	value;
+	uint16_t	address;
+	uint8_t	value;
 });
 
 PACKSTRUCT(struct ble_msg_system_reg_write_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_system_reg_read_cmd_t
 {
-	uint16	address;
+	uint16_t	address;
 });
 
 PACKSTRUCT(struct ble_msg_system_reg_read_rsp_t
 {
-	uint16	address;
-	uint8	value;
+	uint16_t	address;
+	uint8_t	value;
 });
 
 PACKSTRUCT(struct ble_msg_system_get_counters_rsp_t
 {
-	uint8	txok;
-	uint8	txretry;
-	uint8	rxok;
-	uint8	rxfail;
-	uint8	mbuf;
+	uint8_t	txok;
+	uint8_t	txretry;
+	uint8_t	rxok;
+	uint8_t	rxfail;
+	uint8_t	mbuf;
 });
 
 PACKSTRUCT(struct ble_msg_system_get_connections_rsp_t
 {
-	uint8	maxconn;
+	uint8_t	maxconn;
 });
 
 PACKSTRUCT(struct ble_msg_system_read_memory_cmd_t
 {
-	uint32	address;
-	uint8	length;
+	uint32_t	address;
+	uint8_t	length;
 });
 
 PACKSTRUCT(struct ble_msg_system_read_memory_rsp_t
 {
-	uint32	address;
+	uint32_t	address;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_system_get_info_rsp_t
 {
-	uint16	major;
-	uint16	minor;
-	uint16	patch;
-	uint16	build;
-	uint16	ll_version;
-	uint8	protocol_version;
-	uint8	hw;
+	uint16_t	major;
+	uint16_t	minor;
+	uint16_t	patch;
+	uint16_t	build;
+	uint16_t	ll_version;
+	uint8_t	protocol_version;
+	uint8_t	hw;
 });
 
 PACKSTRUCT(struct ble_msg_system_endpoint_tx_cmd_t
 {
-	uint8	endpoint;
+	uint8_t	endpoint;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_system_endpoint_tx_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_system_whitelist_append_cmd_t
 {
 	bd_addr	address;
-	uint8	address_type;
+	uint8_t	address_type;
 });
 
 PACKSTRUCT(struct ble_msg_system_whitelist_append_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_system_whitelist_remove_cmd_t
 {
 	bd_addr	address;
-	uint8	address_type;
+	uint8_t	address_type;
 });
 
 PACKSTRUCT(struct ble_msg_system_whitelist_remove_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_system_endpoint_rx_cmd_t
 {
-	uint8	endpoint;
-	uint8	size;
+	uint8_t	endpoint;
+	uint8_t	size;
 });
 
 PACKSTRUCT(struct ble_msg_system_endpoint_rx_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_system_endpoint_set_watermarks_cmd_t
 {
-	uint8	endpoint;
-	uint8	rx;
-	uint8	tx;
+	uint8_t	endpoint;
+	uint8_t	rx;
+	uint8_t	tx;
 });
 
 PACKSTRUCT(struct ble_msg_system_endpoint_set_watermarks_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_system_aes_setkey_cmd_t
@@ -1024,13 +1027,13 @@ PACKSTRUCT(struct ble_msg_system_aes_decrypt_rsp_t
 
 PACKSTRUCT(struct ble_msg_system_boot_evt_t
 {
-	uint16	major;
-	uint16	minor;
-	uint16	patch;
-	uint16	build;
-	uint16	ll_version;
-	uint8	protocol_version;
-	uint8	hw;
+	uint16_t	major;
+	uint16_t	minor;
+	uint16_t	patch;
+	uint16_t	build;
+	uint16_t	ll_version;
+	uint8_t	protocol_version;
+	uint8_t	hw;
 });
 
 PACKSTRUCT(struct ble_msg_system_debug_evt_t
@@ -1040,79 +1043,79 @@ PACKSTRUCT(struct ble_msg_system_debug_evt_t
 
 PACKSTRUCT(struct ble_msg_system_endpoint_watermark_rx_evt_t
 {
-	uint8	endpoint;
-	uint8	data;
+	uint8_t	endpoint;
+	uint8_t	data;
 });
 
 PACKSTRUCT(struct ble_msg_system_endpoint_watermark_tx_evt_t
 {
-	uint8	endpoint;
-	uint8	data;
+	uint8_t	endpoint;
+	uint8_t	data;
 });
 
 PACKSTRUCT(struct ble_msg_system_script_failure_evt_t
 {
-	uint16	address;
-	uint16	reason;
+	uint16_t	address;
+	uint16_t	reason;
 });
 
 PACKSTRUCT(struct ble_msg_system_protocol_error_evt_t
 {
-	uint16	reason;
+	uint16_t	reason;
 });
 
 PACKSTRUCT(struct ble_msg_flash_ps_save_cmd_t
 {
-	uint16	key;
+	uint16_t	key;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_flash_ps_save_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_flash_ps_load_cmd_t
 {
-	uint16	key;
+	uint16_t	key;
 });
 
 PACKSTRUCT(struct ble_msg_flash_ps_load_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_flash_ps_erase_cmd_t
 {
-	uint16	key;
+	uint16_t	key;
 });
 
 PACKSTRUCT(struct ble_msg_flash_erase_page_cmd_t
 {
-	uint8	page;
+	uint8_t	page;
 });
 
 PACKSTRUCT(struct ble_msg_flash_erase_page_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_flash_write_data_cmd_t
 {
-	uint32	address;
+	uint32_t	address;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_flash_write_data_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_flash_read_data_cmd_t
 {
-	uint32	address;
-	uint8	length;
+	uint32_t	address;
+	uint8_t	length;
 });
 
 PACKSTRUCT(struct ble_msg_flash_read_data_rsp_t
@@ -1122,500 +1125,500 @@ PACKSTRUCT(struct ble_msg_flash_read_data_rsp_t
 
 PACKSTRUCT(struct ble_msg_flash_ps_key_evt_t
 {
-	uint16	key;
+	uint16_t	key;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_write_cmd_t
 {
-	uint16	handle;
-	uint8	offset;
+	uint16_t	handle;
+	uint8_t	offset;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_write_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_read_cmd_t
 {
-	uint16	handle;
-	uint16	offset;
+	uint16_t	handle;
+	uint16_t	offset;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_read_rsp_t
 {
-	uint16	handle;
-	uint16	offset;
-	uint16	result;
+	uint16_t	handle;
+	uint16_t	offset;
+	uint16_t	result;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_read_type_cmd_t
 {
-	uint16	handle;
+	uint16_t	handle;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_read_type_rsp_t
 {
-	uint16	handle;
-	uint16	result;
+	uint16_t	handle;
+	uint16_t	result;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_user_read_response_cmd_t
 {
-	uint8	connection;
-	uint8	att_error;
+	uint8_t	connection;
+	uint8_t	att_error;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_user_write_response_cmd_t
 {
-	uint8	connection;
-	uint8	att_error;
+	uint8_t	connection;
+	uint8_t	att_error;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_send_cmd_t
 {
-	uint8	connection;
-	uint16	handle;
+	uint8_t	connection;
+	uint16_t	handle;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_send_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_value_evt_t
 {
-	uint8	connection;
-	uint8	reason;
-	uint16	handle;
-	uint16	offset;
+	uint8_t	connection;
+	uint8_t	reason;
+	uint16_t	handle;
+	uint16_t	offset;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_user_read_request_evt_t
 {
-	uint8	connection;
-	uint16	handle;
-	uint16	offset;
-	uint8	maxsize;
+	uint8_t	connection;
+	uint16_t	handle;
+	uint16_t	offset;
+	uint8_t	maxsize;
 });
 
 PACKSTRUCT(struct ble_msg_attributes_status_evt_t
 {
-	uint16	handle;
-	uint8	flags;
+	uint16_t	handle;
+	uint8_t	flags;
 });
 
 PACKSTRUCT(struct ble_msg_connection_disconnect_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_disconnect_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_connection_get_rssi_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_get_rssi_rsp_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	int8	rssi;
 });
 
 PACKSTRUCT(struct ble_msg_connection_update_cmd_t
 {
-	uint8	connection;
-	uint16	interval_min;
-	uint16	interval_max;
-	uint16	latency;
-	uint16	timeout;
+	uint8_t	connection;
+	uint16_t	interval_min;
+	uint16_t	interval_max;
+	uint16_t	latency;
+	uint16_t	timeout;
 });
 
 PACKSTRUCT(struct ble_msg_connection_update_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_connection_version_update_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_version_update_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_connection_channel_map_get_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_channel_map_get_rsp_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	uint8array	map;
 });
 
 PACKSTRUCT(struct ble_msg_connection_channel_map_set_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	uint8array	map;
 });
 
 PACKSTRUCT(struct ble_msg_connection_channel_map_set_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_connection_features_get_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_features_get_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_connection_get_status_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_get_status_rsp_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_raw_tx_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_connection_raw_tx_rsp_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_connection_slave_latency_disable_cmd_t
 {
-	uint8	disable;
+	uint8_t	disable;
 });
 
 PACKSTRUCT(struct ble_msg_connection_slave_latency_disable_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_connection_status_evt_t
 {
-	uint8	connection;
-	uint8	flags;
+	uint8_t	connection;
+	uint8_t	flags;
 	bd_addr	address;
-	uint8	address_type;
-	uint16	conn_interval;
-	uint16	timeout;
-	uint16	latency;
-	uint8	bonding;
+	uint8_t	address_type;
+	uint16_t	conn_interval;
+	uint16_t	timeout;
+	uint16_t	latency;
+	uint8_t	bonding;
 });
 
 PACKSTRUCT(struct ble_msg_connection_version_ind_evt_t
 {
-	uint8	connection;
-	uint8	vers_nr;
-	uint16	comp_id;
-	uint16	sub_vers_nr;
+	uint8_t	connection;
+	uint8_t	vers_nr;
+	uint16_t	comp_id;
+	uint16_t	sub_vers_nr;
 });
 
 PACKSTRUCT(struct ble_msg_connection_feature_ind_evt_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	uint8array	features;
 });
 
 PACKSTRUCT(struct ble_msg_connection_raw_rx_evt_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_connection_disconnected_evt_t
 {
-	uint8	connection;
-	uint16	reason;
+	uint8_t	connection;
+	uint16_t	reason;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_find_by_type_value_cmd_t
 {
-	uint8	connection;
-	uint16	start;
-	uint16	end;
-	uint16	uuid;
+	uint8_t	connection;
+	uint16_t	start;
+	uint16_t	end;
+	uint16_t	uuid;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_find_by_type_value_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_by_group_type_cmd_t
 {
-	uint8	connection;
-	uint16	start;
-	uint16	end;
+	uint8_t	connection;
+	uint16_t	start;
+	uint16_t	end;
 	uint8array	uuid;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_by_group_type_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_by_type_cmd_t
 {
-	uint8	connection;
-	uint16	start;
-	uint16	end;
+	uint8_t	connection;
+	uint16_t	start;
+	uint16_t	end;
 	uint8array	uuid;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_by_type_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_find_information_cmd_t
 {
-	uint8	connection;
-	uint16	start;
-	uint16	end;
+	uint8_t	connection;
+	uint16_t	start;
+	uint16_t	end;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_find_information_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_by_handle_cmd_t
 {
-	uint8	connection;
-	uint16	chrhandle;
+	uint8_t	connection;
+	uint16_t	chrhandle;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_by_handle_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_attribute_write_cmd_t
 {
-	uint8	connection;
-	uint16	atthandle;
+	uint8_t	connection;
+	uint16_t	atthandle;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_attribute_write_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_write_command_cmd_t
 {
-	uint8	connection;
-	uint16	atthandle;
+	uint8_t	connection;
+	uint16_t	atthandle;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_write_command_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_indicate_confirm_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_indicate_confirm_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_long_cmd_t
 {
-	uint8	connection;
-	uint16	chrhandle;
+	uint8_t	connection;
+	uint16_t	chrhandle;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_long_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_prepare_write_cmd_t
 {
-	uint8	connection;
-	uint16	atthandle;
-	uint16	offset;
+	uint8_t	connection;
+	uint16_t	atthandle;
+	uint16_t	offset;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_prepare_write_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_execute_write_cmd_t
 {
-	uint8	connection;
-	uint8	commit;
+	uint8_t	connection;
+	uint8_t	commit;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_execute_write_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_multiple_cmd_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	uint8array	handles;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_multiple_rsp_t
 {
-	uint8	connection;
-	uint16	result;
+	uint8_t	connection;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_indicated_evt_t
 {
-	uint8	connection;
-	uint16	attrhandle;
+	uint8_t	connection;
+	uint16_t	attrhandle;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_procedure_completed_evt_t
 {
-	uint8	connection;
-	uint16	result;
-	uint16	chrhandle;
+	uint8_t	connection;
+	uint16_t	result;
+	uint16_t	chrhandle;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_group_found_evt_t
 {
-	uint8	connection;
-	uint16	start;
-	uint16	end;
+	uint8_t	connection;
+	uint16_t	start;
+	uint16_t	end;
 	uint8array	uuid;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_attribute_found_evt_t
 {
-	uint8	connection;
-	uint16	chrdecl;
-	uint16	value;
-	uint8	properties;
+	uint8_t	connection;
+	uint16_t	chrdecl;
+	uint16_t	value;
+	uint8_t	properties;
 	uint8array	uuid;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_find_information_found_evt_t
 {
-	uint8	connection;
-	uint16	chrhandle;
+	uint8_t	connection;
+	uint16_t	chrhandle;
 	uint8array	uuid;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_attribute_value_evt_t
 {
-	uint8	connection;
-	uint16	atthandle;
-	uint8	type;
+	uint8_t	connection;
+	uint16_t	atthandle;
+	uint8_t	type;
 	uint8array	value;
 });
 
 PACKSTRUCT(struct ble_msg_attclient_read_multiple_response_evt_t
 {
-	uint8	connection;
+	uint8_t	connection;
 	uint8array	handles;
 });
 
 PACKSTRUCT(struct ble_msg_sm_encrypt_start_cmd_t
 {
-	uint8	handle;
-	uint8	bonding;
+	uint8_t	handle;
+	uint8_t	bonding;
 });
 
 PACKSTRUCT(struct ble_msg_sm_encrypt_start_rsp_t
 {
-	uint8	handle;
-	uint16	result;
+	uint8_t	handle;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_sm_set_bondable_mode_cmd_t
 {
-	uint8	bondable;
+	uint8_t	bondable;
 });
 
 PACKSTRUCT(struct ble_msg_sm_delete_bonding_cmd_t
 {
-	uint8	handle;
+	uint8_t	handle;
 });
 
 PACKSTRUCT(struct ble_msg_sm_delete_bonding_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_sm_set_parameters_cmd_t
 {
-	uint8	mitm;
-	uint8	min_key_size;
-	uint8	io_capabilities;
+	uint8_t	mitm;
+	uint8_t	min_key_size;
+	uint8_t	io_capabilities;
 });
 
 PACKSTRUCT(struct ble_msg_sm_passkey_entry_cmd_t
 {
-	uint8	handle;
-	uint32	passkey;
+	uint8_t	handle;
+	uint32_t	passkey;
 });
 
 PACKSTRUCT(struct ble_msg_sm_passkey_entry_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_sm_get_bonds_rsp_t
 {
-	uint8	bonds;
+	uint8_t	bonds;
 });
 
 PACKSTRUCT(struct ble_msg_sm_set_oob_data_cmd_t
@@ -1625,182 +1628,182 @@ PACKSTRUCT(struct ble_msg_sm_set_oob_data_cmd_t
 
 PACKSTRUCT(struct ble_msg_sm_whitelist_bonds_rsp_t
 {
-	uint16	result;
-	uint8	count;
+	uint16_t	result;
+	uint8_t	count;
 });
 
 PACKSTRUCT(struct ble_msg_sm_set_pairing_distribution_keys_cmd_t
 {
-	uint8	initiator_keys;
-	uint8	responder_keys;
+	uint8_t	initiator_keys;
+	uint8_t	responder_keys;
 });
 
 PACKSTRUCT(struct ble_msg_sm_set_pairing_distribution_keys_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_sm_smp_data_evt_t
 {
-	uint8	handle;
-	uint8	packet;
+	uint8_t	handle;
+	uint8_t	packet;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_sm_bonding_fail_evt_t
 {
-	uint8	handle;
-	uint16	result;
+	uint8_t	handle;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_sm_passkey_display_evt_t
 {
-	uint8	handle;
-	uint32	passkey;
+	uint8_t	handle;
+	uint32_t	passkey;
 });
 
 PACKSTRUCT(struct ble_msg_sm_passkey_request_evt_t
 {
-	uint8	handle;
+	uint8_t	handle;
 });
 
 PACKSTRUCT(struct ble_msg_sm_bond_status_evt_t
 {
-	uint8	bond;
-	uint8	keysize;
-	uint8	mitm;
-	uint8	keys;
+	uint8_t	bond;
+	uint8_t	keysize;
+	uint8_t	mitm;
+	uint8_t	keys;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_privacy_flags_cmd_t
 {
-	uint8	peripheral_privacy;
-	uint8	central_privacy;
+	uint8_t	peripheral_privacy;
+	uint8_t	central_privacy;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_mode_cmd_t
 {
-	uint8	discover;
-	uint8	connect;
+	uint8_t	discover;
+	uint8_t	connect;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_mode_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_discover_cmd_t
 {
-	uint8	mode;
+	uint8_t	mode;
 });
 
 PACKSTRUCT(struct ble_msg_gap_discover_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_connect_direct_cmd_t
 {
 	bd_addr	address;
-	uint8	addr_type;
-	uint16	conn_interval_min;
-	uint16	conn_interval_max;
-	uint16	timeout;
-	uint16	latency;
+	uint8_t	addr_type;
+	uint16_t	conn_interval_min;
+	uint16_t	conn_interval_max;
+	uint16_t	timeout;
+	uint16_t	latency;
 });
 
 PACKSTRUCT(struct ble_msg_gap_connect_direct_rsp_t
 {
-	uint16	result;
-	uint8	connection_handle;
+	uint16_t	result;
+	uint8_t	connection_handle;
 });
 
 PACKSTRUCT(struct ble_msg_gap_end_procedure_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_connect_selective_cmd_t
 {
-	uint16	conn_interval_min;
-	uint16	conn_interval_max;
-	uint16	timeout;
-	uint16	latency;
+	uint16_t	conn_interval_min;
+	uint16_t	conn_interval_max;
+	uint16_t	timeout;
+	uint16_t	latency;
 });
 
 PACKSTRUCT(struct ble_msg_gap_connect_selective_rsp_t
 {
-	uint16	result;
-	uint8	connection_handle;
+	uint16_t	result;
+	uint8_t	connection_handle;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_filtering_cmd_t
 {
-	uint8	scan_policy;
-	uint8	adv_policy;
-	uint8	scan_duplicate_filtering;
+	uint8_t	scan_policy;
+	uint8_t	adv_policy;
+	uint8_t	scan_duplicate_filtering;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_filtering_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_scan_parameters_cmd_t
 {
-	uint16	scan_interval;
-	uint16	scan_window;
-	uint8	active;
+	uint16_t	scan_interval;
+	uint16_t	scan_window;
+	uint8_t	active;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_scan_parameters_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_adv_parameters_cmd_t
 {
-	uint16	adv_interval_min;
-	uint16	adv_interval_max;
-	uint8	adv_channels;
+	uint16_t	adv_interval_min;
+	uint16_t	adv_interval_max;
+	uint8_t	adv_channels;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_adv_parameters_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_adv_data_cmd_t
 {
-	uint8	set_scanrsp;
+	uint8_t	set_scanrsp;
 	uint8array	adv_data;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_adv_data_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_directed_connectable_mode_cmd_t
 {
 	bd_addr	address;
-	uint8	addr_type;
+	uint8_t	addr_type;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_directed_connectable_mode_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_initiating_con_parameters_cmd_t
 {
-	uint16	scan_interval;
-	uint16	scan_window;
+	uint16_t	scan_interval;
+	uint16_t	scan_window;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_initiating_con_parameters_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_set_nonresolvable_address_cmd_t
@@ -1810,299 +1813,299 @@ PACKSTRUCT(struct ble_msg_gap_set_nonresolvable_address_cmd_t
 
 PACKSTRUCT(struct ble_msg_gap_set_nonresolvable_address_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_gap_scan_response_evt_t
 {
 	int8	rssi;
-	uint8	packet_type;
+	uint8_t	packet_type;
 	bd_addr	sender;
-	uint8	address_type;
-	uint8	bond;
+	uint8_t	address_type;
+	uint8_t	bond;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_gap_mode_changed_evt_t
 {
-	uint8	discover;
-	uint8	connect;
+	uint8_t	discover;
+	uint8_t	connect;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_irq_cmd_t
 {
-	uint8	port;
-	uint8	enable_bits;
-	uint8	falling_edge;
+	uint8_t	port;
+	uint8_t	enable_bits;
+	uint8_t	falling_edge;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_irq_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_set_soft_timer_cmd_t
 {
-	uint32	time;
-	uint8	handle;
-	uint8	single_shot;
+	uint32_t	time;
+	uint8_t	handle;
+	uint8_t	single_shot;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_set_soft_timer_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_adc_read_cmd_t
 {
-	uint8	input;
-	uint8	decimation;
-	uint8	reference_selection;
+	uint8_t	input;
+	uint8_t	decimation;
+	uint8_t	reference_selection;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_adc_read_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_direction_cmd_t
 {
-	uint8	port;
-	uint8	direction;
+	uint8_t	port;
+	uint8_t	direction;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_direction_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_function_cmd_t
 {
-	uint8	port;
-	uint8	function;
+	uint8_t	port;
+	uint8_t	function;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_function_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_pull_cmd_t
 {
-	uint8	port;
-	uint8	tristate_mask;
-	uint8	pull_up;
+	uint8_t	port;
+	uint8_t	tristate_mask;
+	uint8_t	pull_up;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_config_pull_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_write_cmd_t
 {
-	uint8	port;
-	uint8	mask;
-	uint8	data;
+	uint8_t	port;
+	uint8_t	mask;
+	uint8_t	data;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_write_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_read_cmd_t
 {
-	uint8	port;
-	uint8	mask;
+	uint8_t	port;
+	uint8_t	mask;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_read_rsp_t
 {
-	uint16	result;
-	uint8	port;
-	uint8	data;
+	uint16_t	result;
+	uint8_t	port;
+	uint8_t	data;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_spi_config_cmd_t
 {
-	uint8	channel;
-	uint8	polarity;
-	uint8	phase;
-	uint8	bit_order;
-	uint8	baud_e;
-	uint8	baud_m;
+	uint8_t	channel;
+	uint8_t	polarity;
+	uint8_t	phase;
+	uint8_t	bit_order;
+	uint8_t	baud_e;
+	uint8_t	baud_m;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_spi_config_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_spi_transfer_cmd_t
 {
-	uint8	channel;
+	uint8_t	channel;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_spi_transfer_rsp_t
 {
-	uint16	result;
-	uint8	channel;
+	uint16_t	result;
+	uint8_t	channel;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_i2c_read_cmd_t
 {
-	uint8	address;
-	uint8	stop;
-	uint8	length;
+	uint8_t	address;
+	uint8_t	stop;
+	uint8_t	length;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_i2c_read_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_i2c_write_cmd_t
 {
-	uint8	address;
-	uint8	stop;
+	uint8_t	address;
+	uint8_t	stop;
 	uint8array	data;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_i2c_write_rsp_t
 {
-	uint8	written;
+	uint8_t	written;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_set_txpower_cmd_t
 {
-	uint8	power;
+	uint8_t	power;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_timer_comparator_cmd_t
 {
-	uint8	timer;
-	uint8	channel;
-	uint8	mode;
-	uint16	comparator_value;
+	uint8_t	timer;
+	uint8_t	channel;
+	uint8_t	mode;
+	uint16_t	comparator_value;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_timer_comparator_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_irq_enable_cmd_t
 {
-	uint8	port;
-	uint8	enable_bits;
+	uint8_t	port;
+	uint8_t	enable_bits;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_irq_enable_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_irq_direction_cmd_t
 {
-	uint8	port;
-	uint8	falling_edge;
+	uint8_t	port;
+	uint8_t	falling_edge;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_irq_direction_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_analog_comparator_enable_cmd_t
 {
-	uint8	enable;
+	uint8_t	enable;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_analog_comparator_read_rsp_t
 {
-	uint16	result;
-	uint8	output;
+	uint16_t	result;
+	uint8_t	output;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_analog_comparator_config_irq_cmd_t
 {
-	uint8	enabled;
+	uint8_t	enabled;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_analog_comparator_config_irq_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_set_rxgain_cmd_t
 {
-	uint8	gain;
+	uint8_t	gain;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_usb_enable_cmd_t
 {
-	uint8	enable;
+	uint8_t	enable;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_usb_enable_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_sleep_enable_cmd_t
 {
-	uint8	enable;
+	uint8_t	enable;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_sleep_enable_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_io_port_status_evt_t
 {
-	uint32	timestamp;
-	uint8	port;
-	uint8	irq;
-	uint8	state;
+	uint32_t	timestamp;
+	uint8_t	port;
+	uint8_t	irq;
+	uint8_t	state;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_soft_timer_evt_t
 {
-	uint8	handle;
+	uint8_t	handle;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_adc_result_evt_t
 {
-	uint8	input;
+	uint8_t	input;
 	int16	value;
 });
 
 PACKSTRUCT(struct ble_msg_hardware_analog_comparator_status_evt_t
 {
-	uint32	timestamp;
-	uint8	output;
+	uint32_t	timestamp;
+	uint8_t	output;
 });
 
 PACKSTRUCT(struct ble_msg_test_phy_tx_cmd_t
 {
-	uint8	channel;
-	uint8	length;
-	uint8	type;
+	uint8_t	channel;
+	uint8_t	length;
+	uint8_t	type;
 });
 
 PACKSTRUCT(struct ble_msg_test_phy_rx_cmd_t
 {
-	uint8	channel;
+	uint8_t	channel;
 });
 
 PACKSTRUCT(struct ble_msg_test_phy_end_rsp_t
 {
-	uint16	counter;
+	uint16_t	counter;
 });
 
 PACKSTRUCT(struct ble_msg_test_get_channel_map_rsp_t
@@ -2112,34 +2115,34 @@ PACKSTRUCT(struct ble_msg_test_get_channel_map_rsp_t
 
 PACKSTRUCT(struct ble_msg_test_debug_cmd_t
 {
-	uint8	opcode;
+	uint8_t	opcode;
 	uint8array	input;
 });
 
 PACKSTRUCT(struct ble_msg_test_debug_rsp_t
 {
-	uint8	opcode;
+	uint8_t	opcode;
 	uint8array	output;
 });
 
 PACKSTRUCT(struct ble_msg_test_channel_mode_cmd_t
 {
-	uint8	mode;
+	uint8_t	mode;
 });
 
 PACKSTRUCT(struct ble_msg_dfu_reset_cmd_t
 {
-	uint8	dfu;
+	uint8_t	dfu;
 });
 
 PACKSTRUCT(struct ble_msg_dfu_flash_set_address_cmd_t
 {
-	uint32	address;
+	uint32_t	address;
 });
 
 PACKSTRUCT(struct ble_msg_dfu_flash_set_address_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_dfu_flash_upload_cmd_t
@@ -2149,17 +2152,17 @@ PACKSTRUCT(struct ble_msg_dfu_flash_upload_cmd_t
 
 PACKSTRUCT(struct ble_msg_dfu_flash_upload_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_dfu_flash_upload_finish_rsp_t
 {
-	uint16	result;
+	uint16_t	result;
 });
 
 PACKSTRUCT(struct ble_msg_dfu_boot_evt_t
 {
-	uint32	version;
+	uint32_t	version;
 });
 
 PACKSTRUCT(
@@ -2168,7 +2171,7 @@ struct ble_cmd_packet
 	struct ble_header header;
 
 union{
-	uint8 handle;
+	uint8_t handle;
 
 	struct ble_msg_system_reset_cmd_t                          system_reset_cmd;
 	struct ble_msg_system_reg_write_cmd_t                      system_reg_write_cmd;
@@ -2386,7 +2389,7 @@ union{
 	struct ble_msg_dfu_flash_upload_rsp_t                      dfu_flash_upload_rsp;
 	struct ble_msg_dfu_flash_upload_finish_rsp_t               dfu_flash_upload_finish_rsp;
 
-	uint8 payload[128];/*TODO: fix this for getting command size larger*/
+	uint8_t payload[128];/*TODO: fix this for getting command size larger*/
 };
 
 }ALIGNED);
@@ -3080,7 +3083,7 @@ void ble_evt_dfu_boot(const struct ble_msg_dfu_boot_evt_t *msg);
 struct ble_class_handler_t
 {
     const struct ble_msg * const *msgs;
-    uint8 maxhandlers;
+    uint8_t maxhandlers;
 };
 extern const struct ble_class_handler_t ble_class_rsp_handlers[ble_cls_last];
 extern const struct ble_class_handler_t ble_class_evt_handlers[ble_cls_last];            
