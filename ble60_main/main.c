@@ -100,16 +100,20 @@ int main(void)
 
     // wait for BLE `system_boot` event
     if (wait_for_ble_wake() != 0) {
+        blink_fast(10);
         return 0;
     }
 
+    // DO ALL CONFIGURATION HERE PRIOR TO PAIRING
     // set bondable mode
     if (set_bondable_mode() != 0) {
+        blink_fast(10);
         return 0;
     }
 
     // set the GAP mode to discoverable
     if (set_gap_mode() != 0) {
+        blink_fast(10);
         return 0;
     }
 
@@ -119,15 +123,17 @@ int main(void)
         return 0;
     }
 
-    // BLOCKING: get Attribute Database Status Event
+    // WAIT FOR PAIRING
+    // get Attribute Database Status Event ==> "notifications are enabled"
     if (get_attribute_database_status() != 0) {
+        blink_fast(10);
         return 0;
     }
-
     
     uint8_t *handle = (uint8_t*) malloc(sizeof(uint8_t));
     uint8_t *payload = (uint8_t*) malloc(16*(sizeof(uint8_t)));
-    // BLOCKING: get Connection Status Event
+
+    // get Connection Status Event
     if (get_connection_status(handle, payload) != 0) {
         blink_fast(10);
         return 0;
@@ -142,18 +148,22 @@ int main(void)
     int encrypt_rc = start_encryption(handle, &result);
 
     if (encrypt_rc == 0) {
+        // we're good!
         TURN_LED_ON(0);
         _delay_ms(2000);
         TURN_LED_OFF(0);
     } else {
         if (encrypt_rc == 1) {
+            // not quite right, write the error code to LEDs
             blink_fast(8);
             write_to_leds(*result);
             write_to_leds(*(result+1));
             blink_fast(8);
         } else if (encrypt_rc == -1) {
+            // this is bad
             blink_slow(5);
         } else {
+            // this is really bad
             blink_slow(10);
         }
     }

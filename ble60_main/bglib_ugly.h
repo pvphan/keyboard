@@ -10,6 +10,6 @@ int set_bondable_mode(void);
 int set_sm_params(void);
 int start_encryption(uint8_t*, uint8_t*);
 int get_attribute_database_status(void);
-//int get_connection_status(void);
+int get_connection_status(uint8_t*, uint8_t*);
 
 #endif

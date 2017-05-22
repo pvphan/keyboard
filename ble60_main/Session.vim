@@ -57,12 +57,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 19 - ((18 * winheight(0) + 17) / 34)
+let s:l = 28 - ((27 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-19
-normal! 022|
+28
+normal! 074|
 wincmd w
 exe '1resize ' . ((&lines * 15 + 26) / 53)
 exe '2resize ' . ((&lines * 34 + 26) / 53)
@@ -82,11 +82,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 113 - ((19 * winheight(0) + 25) / 50)
+let s:l = 117 - ((23 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-113
+117
 normal! 09|
 tabnext 2
 set stal=1
