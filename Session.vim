@@ -15,8 +15,8 @@ badd +98 blinky_pjrc/blinky.c
 badd +60 uart/Makefile
 badd +46 uart/uart.c
 badd +52 ble-1.5.0_src/thermometer-demo/uart.c
-badd +34 hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
-badd +46 hid_over_gatt_keyboard/gatt.xml
+badd +41 hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
+badd +91 hid_over_gatt_keyboard/gatt.xml
 badd +3 hid_over_gatt_keyboard/hardware.xml
 badd +3 hid_over_gatt_keyboard/project-ble113-m256k.bgproj
 badd +2 bglib_jrow/BLEFirmware/BGLib_U1A1P_38400_noflow/project-ble113-m256k.bgproj
@@ -32,20 +32,20 @@ badd +28 tmk_keyboard/tmk_core/common/uart.c
 badd +123 tmk_keyboard/tmk_core/common/keyboard.c
 badd +632 tmk_keyboard/tmk_core/common/command.c
 badd +78 tmk_keyboard/tmk_core/protocol/bluefruit/main.c
-badd +48 ble60_main/Makefile
+badd +72 ble60_main/Makefile
 badd +1 main.c
-badd +6 ble60_main/main.c
+badd +13 ble60_main/main.c
 badd +1 ble60_main/uart.h
 badd +1 ble60_main/uart.c
 badd +346 ble60_main/usb_debug_only.c
 badd +28 tmk_keyboard/tmk_core/common/matrix.h
 badd +62 tmk_keyboard/keyboard/gh60/matrix.c
 badd +417 ble60_main/cmd_def.c
-badd +1 ble60_main/cmd_def.h
+badd +7 ble60_main/cmd_def.h
 badd +1394 bglib_jrow/Arduino/BGLib.h
 badd +124 bglib_jrow/Arduino/BGLibConfig.h
 badd +1 ble60_main/commands.c
-badd +1 ble60_main/bglib_ugly.c
+badd +166 ble60_main/bglib_ugly.c
 badd +3 ble60_main/bglib_ugly.h
 argglobal
 silent! argdel *
@@ -72,15 +72,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 70 - ((19 * winheight(0) + 25) / 50)
+let s:l = 66 - ((26 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-70
+66
 normal! 0
 wincmd w
 argglobal
-edit ble60_main/Makefile
+edit ble60_main/uart.c
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -90,12 +90,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 49 - ((47 * winheight(0) + 25) / 50)
+let s:l = 100 - ((48 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-49
-normal! 010|
+100
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
 exe 'vert 2resize ' . ((&columns * 105 + 105) / 211)
@@ -135,11 +135,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 2 - ((1 * winheight(0) + 7) / 15)
+let s:l = 10 - ((9 * winheight(0) + 7) / 15)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-2
+10
 normal! 0
 wincmd w
 argglobal
@@ -153,12 +153,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 116 - ((28 * winheight(0) + 17) / 34)
+let s:l = 191 - ((15 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-116
-normal! 05|
+191
+normal! 0
 wincmd w
 argglobal
 edit ble60_main/uart.h
@@ -196,7 +196,6 @@ normal! zt
 126
 normal! 0
 wincmd w
-2wincmd w
 exe '1resize ' . ((&lines * 15 + 26) / 53)
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
 exe '2resize ' . ((&lines * 34 + 26) / 53)
@@ -205,7 +204,7 @@ exe '3resize ' . ((&lines * 15 + 26) / 53)
 exe 'vert 3resize ' . ((&columns * 105 + 105) / 211)
 exe '4resize ' . ((&lines * 34 + 26) / 53)
 exe 'vert 4resize ' . ((&columns * 105 + 105) / 211)
-tabnext 2
+tabnext 1
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

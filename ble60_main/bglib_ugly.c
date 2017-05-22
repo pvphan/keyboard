@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <string.h>
 #include "uart.h"
 
 uint8_t ble_woke_up[4] = {0x80, 0x0C, 0x00, 0x00};
@@ -14,7 +15,7 @@ uint8_t ble_set_bondable_mode[6] =       {0x05, 0x00, 0x01, 0x05, 0x01, 0x01};
 uint8_t ble_set_bondable_mode_resp[4] =  {0x00, 0x00, 0x05, 0x01};
 uint8_t ble_set_bondable_score = 0;
 
-uint8_t sm_set_params[8] =               {0x07, 0x00, 0x03, 0x05, 0x03, 0x00, 0x07, 0x05};
+uint8_t sm_set_params[8] =               {0x07, 0x00, 0x03, 0x05, 0x03, 0x00, 0x07, 0x03};
 uint8_t sm_set_params_resp[4] =          {0x00, 0x00, 0x05, 0x03};
 uint8_t sm_set_params_score = 0;
 
@@ -23,6 +24,18 @@ uint8_t hid_press_A[8] =                 {0x02, 0x00, 0x04, 0x00, 0x00, 0x00, 0x
 uint8_t hid_release_A[8] =               {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 uint8_t host_received_A_response[6] =    {0x00, 0x02, 0x02, 0x00, 0x00, 0x00};
 uint8_t host_received_A_response_score = 0;
+
+uint8_t start_encryption_msg[7] =        {0x06, 0x00, 0x02, 0x05, 0x00, 0x00, 0x00};
+uint8_t start_encryption_rsp[7] =        {0x00, 0x03, 0x05, 0x00, 0x00, 0x00, 0x00};
+uint8_t start_encryption_score = 0;
+
+uint8_t event_attribute_database_status[7] = {0x80, 0x03, 0x02, 0x02, 0x16, 0x00, 0x01};
+uint8_t event_attribute_database_status_score = 0;
+
+uint8_t connection_status_header[4] =    {0x80, 0x10, 0x03, 0x00};
+uint8_t connection_status_score = 0;
+
+//uint8_t set_pairing_dist_keys[7] =       {0x06, 0x00, 0x02, 0x05, 0x08, 
 
 // 0 == false, 1 == true
 uint8_t has_paired = 0;
@@ -172,6 +185,105 @@ int set_sm_params(void) {
     if (sm_set_params_score == 4) {
         has_sm_params_set = 1;
         return 0;
+    } else {
+        return -1;
+    }
+}
+
+int get_attribute_database_status() {
+    uint8_t c;
+    uint8_t i;
+
+    while (!uart_available()) { ; }
+
+    for (i=0; i<7; i++) {
+        c = uart_getchar();
+
+        if (c == event_attribute_database_status[i]) {
+            event_attribute_database_status_score++;
+        }
+    }
+
+    if (event_attribute_database_status_score == 7) {
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+int get_connection_status(uint8_t *handle, uint8_t *payload) {
+
+    uint8_t c;
+    uint8_t i;
+
+    while (!uart_available()) { ; }
+
+    for (i=0; i<4; i++) {
+        c = uart_getchar();
+
+        if (c == connection_status_header[i]) {
+            connection_status_score++;
+        }
+    }
+
+    for (i=0; i<16; i++) {
+        c = uart_getchar();
+        if (i == 0) {
+            memcpy(handle, &c, sizeof(uint8_t));
+        } else {
+            memcpy(payload+i-1, &c, sizeof(uint8_t));
+        }
+    }
+
+    if (connection_status_score == 4) {
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+int start_encryption(uint8_t *handle, uint8_t *result) {
+    uint8_t c;
+    uint8_t i;
+
+    // eat all serial
+    while (uart_available()) {
+        c = uart_getchar();
+    }
+
+    // SEND
+    for (i=0; i<7; i++) {
+        c = start_encryption_msg[i];
+        uart_putchar(c);
+    }
+
+    // RECV
+    for (i=0; i<7; i++) {
+        c = uart_getchar();
+
+        if (c == start_encryption_rsp[i]) {
+            start_encryption_score++;
+        }
+
+        if (i == 4) {
+            memcpy(handle, &c, sizeof(uint8_t));
+        }
+
+        if (i == 5) {
+            memcpy(result, &c, sizeof(uint8_t));
+        }
+        if (i == 6) {
+            memcpy(result+1, &c, sizeof(uint8_t));
+        }
+            
+    }
+
+    if (start_encryption_score >= 3) {
+        if (start_encryption_score == 7) {
+            return 0;
+        } else {
+            return 1;
+        }
     } else {
         return -1;
     }
