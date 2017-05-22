@@ -71,3 +71,27 @@ print "EVENT 3:"
 for line in event3:
     binary_to_dec(line)
 print ""
+
+
+
+payload = ["01111111",
+           "11111111",
+           "10000000",
+           "01000000",
+           "11000000",
+           "00100000",
+           "10100000",
+           "01100000",
+           "11100000",
+           "00010000",
+           "10010000",
+           "01010000",
+           "11010000",
+           "00110000",
+           "10110000",]
+
+print "payload"
+for line in payload:
+    binary_to_dec(line)
+print ""
+

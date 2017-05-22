@@ -12,6 +12,7 @@
 #define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
 #define BAUD_RATE 38400
 
+
 void TURN_LED_ON(uint8_t n) {
     if (n == 0) {
         LED_ON;
@@ -69,6 +70,28 @@ void write_to_leds(uint8_t byte) {
     }
 }
 
+void night_rider_leds(void) {
+    int k;
+    int i;
+    for (k=0; k<3; k++) {
+        for (i=0; i<8; i++) {
+            TURN_LED_ON(i);
+            if (i > 0) {
+                TURN_LED_OFF(i-1);
+            }
+            _delay_ms(100);
+        }
+        for (i=7; i>-1; i--) {
+            TURN_LED_ON(i);
+            if (i < 7) {
+                TURN_LED_OFF(i+1);
+            }
+            _delay_ms(100);
+        }
+        TURN_LED_OFF(0);
+    }
+}
+
 void blink_slow(uint8_t k) {
     uint8_t i;
     for (i=0; i<k; i++) {
@@ -123,15 +146,18 @@ int main(void)
         return 0;
     }
 
-    // WAIT FOR PAIRING
+    
+    uint8_t *handle = (uint8_t*) malloc(sizeof(uint8_t));
+    uint8_t *payload = (uint8_t*) malloc(16*(sizeof(uint8_t)));
+
+
+    // WAIT FOR PAIRING ===========================================
     // get Attribute Database Status Event ==> "notifications are enabled"
     if (get_attribute_database_status() != 0) {
         blink_fast(10);
         return 0;
     }
-    
-    uint8_t *handle = (uint8_t*) malloc(sizeof(uint8_t));
-    uint8_t *payload = (uint8_t*) malloc(16*(sizeof(uint8_t)));
+    // WE SHOULD BE PAIRED NOW! ===================================
 
     // get Connection Status Event
     if (get_connection_status(handle, payload) != 0) {
@@ -139,7 +165,15 @@ int main(void)
         return 0;
     }
 
-    // WE SHOULD BE PAIRED NOW!
+
+    //blink_slow(5);
+    //// blink the payload
+    //uint8_t i;
+    //for (i=0; i<16; i++) {
+    //    write_to_leds(payload+i);
+    //}
+    //blink_slow(5);
+
     
     // TODO: this doesnt work yet, gets error
     // start encryption
@@ -149,9 +183,10 @@ int main(void)
 
     if (encrypt_rc == 0) {
         // we're good!
-        TURN_LED_ON(0);
-        _delay_ms(2000);
-        TURN_LED_OFF(0);
+        night_rider_leds();
+        //TURN_LED_ON(0);
+        //_delay_ms(2000);
+        //TURN_LED_OFF(0);
     } else {
         if (encrypt_rc == 1) {
             // not quite right, write the error code to LEDs

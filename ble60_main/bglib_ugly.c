@@ -4,6 +4,8 @@
 #include <string.h>
 #include "uart.h"
 
+#define CONN_HANDLE 0x00
+
 uint8_t ble_woke_up[4] = {0x80, 0x0C, 0x00, 0x00};
 uint8_t ble_woke_score = 0;
 
