@@ -7,3 +7,5 @@
 *.sym
 *.lst
 *.o
+
+*.swp
