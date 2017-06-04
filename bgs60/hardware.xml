@@ -2,7 +2,7 @@
 
 <hardware>
     <sleeposc enable="true" ppm="30" />
-	<usart channel="1" alternate="1" baud="38400" endpoint="none" mode="uart" flow="false" />
+	<usart channel="1" alternate="1" baud="38452" endpoint="none" mode="uart" flow="false" />
     <sleep enable="false" />
 	<usb enable="false" endpoint="api" />
     <txpower power="15" bias="5" />

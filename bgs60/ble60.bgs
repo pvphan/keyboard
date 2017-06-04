@@ -4,6 +4,7 @@ dim dfu_pointer  # current pointer to flash location to upload firmware
 dim erase_page   # current page to erase
 
 dim hid_attribute   # controls which attribute is used for writing HID data (normal or boot mode)
+dim buf_pos
 
 const MAX_ERASE_PAGE = 64
 
@@ -85,28 +86,30 @@ end
 # Boot event listener
 event system_boot(major ,minor ,patch ,build ,ll_version ,protocol_version ,hw)
 
-      #Set timer to generate event every 1s
-      #call hardware_set_soft_timer(32768, 1, 0)
+    #Set timer to generate event every 1s
+    #call hardware_set_soft_timer(32768, 1, 0)
 
-      # configure P0.7 as output
-      call hardware_io_port_config_direction(0, $80)
+    # configure P0.7 as output
+    call hardware_io_port_config_direction(0, $80)
 
-      # Disable P0.7 pin. Parameters: I/O port to write to 0/1/2, 
-      #                               bitmask of pins to modify, 
-      #                               bitmask of pin values to set
-      call hardware_io_port_write(0, $80, 0)
-	  
-	  call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)	# Start advertisement
-	  call sm_set_bondable_mode(1)
-	  
-	  call system_endpoint_set_watermarks(system_endpoint_uart1, 12, 0)	  
+    # Disable P0.7 pin. Parameters: I/O port to write to 0/1/2, 
+    #                               bitmask of pins to modify, 
+    #                               bitmask of pin values to set
+    call hardware_io_port_write(0, $80, 0)
+	
+	call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)	# Start advertisement
+	call sm_set_bondable_mode(1)
+	
+	call system_endpoint_set_watermarks(system_endpoint_uart1, 12, 0)	  
 
-      # Configure P0.0 as output
-      call hardware_io_port_config_direction(LED_PORT, LED_PIN)
-      call hardware_io_port_write(LED_PORT, LED_PIN, 0) #this is new, LED off
+    # Configure P0.0 as output
+    call hardware_io_port_config_direction(LED_PORT, LED_PIN)
+    call hardware_io_port_write(LED_PORT, LED_PIN, 0) #this is new, LED off
 
     # use default report mode for keyboard
     hid_attribute = hid_keyboard_in
+
+    buf_pos = 0
 end
 
 # Connection event listener
@@ -115,12 +118,18 @@ event connection_status(connection, flags, address, address_type, conn_interval,
         # always initialize protocol mode to default 1 after connection
         call attributes_write(hid_protocol_mode, 0, 1, 1)
         hid_attribute = hid_keyboard_in
+
+        # DEBUG
+        call hardware_io_port_write(LED_PORT, LED_PIN, 1)
     end if
 end
 
 # Disconnection event listener
 event connection_disconnected(connection, reason)
     call gap_set_mode(gap_general_discoverable, gap_undirected_connectable)	# Start advertisement
+
+    # DEBUG
+    call hardware_io_port_write(LED_PORT, LED_PIN, 0)
 end
 
 # endpoint data in
@@ -129,6 +138,8 @@ dim in_len
 dim result
 dim port
 dim data
+dim keystroke_buffer(8) # holds the 8 bytes that make up a keystroke
+dim i
 
 # System endpoint watermark event listener
 # Generated when there is data available from UART
@@ -143,21 +154,52 @@ event system_endpoint_watermark_rx(endpoint, size)
    end if	
 
    if endpoint = system_endpoint_uart1 then
+
         in_len = size
 
-        call system_endpoint_set_watermarks(system_endpoint_uart1, 0, $ff) 						# disable RX watermark
-        call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len))	# read data from UART
+        #call system_endpoint_set_watermarks(system_endpoint_uart1, 0, $ff) # disable RX watermark
+        call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) # read data from UART
+		i = 0
 
+		# iterate through each byte
+		while i < in_len
 
-		if in(0:1) = $ff then
-            call attributes_write(hid_attribute, 0, 8, in(1:8))
-            in(1:8) = "\x00\x00\x00\x00\x00\x00\x00\x00"
-            call attributes_write(hid_attribute, 0, 8, in(1:8))
-		end if
+            # determine start of buffer
+			if in(i:1) = $ff then
 
+			    # start new buffer	
+                buf_pos = 0
 
-		call system_endpoint_set_watermarks(system_endpoint_uart1, 12, $ff) 						# enable RX watermark
-        call attributes_write(xgatt_sensor, 0, in_len, in(0:in_len))								# Write data to GATT
+            else
+
+                # read next byte into buffer
+                keystroke_buffer(buf_pos:1) = in(i:1)
+
+                # adjust buf_pos
+                buf_pos = buf_pos + 1
+
+                if buf_pos = 8 then
+
+                    # we have a full buffer, write it now
+                    call attributes_write(hid_attribute, 0, 8, keystroke_buffer(0:8)) # key down
+                    keystroke_buffer(0:8) = "\x00\x00\x00\x00\x00\x00\x00\x00"
+                    call attributes_write(hid_attribute, 0, 8, keystroke_buffer(0:8)) # key release
+
+                    buf_pos = 0 
+
+                    # DEBUG
+                    call hardware_io_port_write(LED_PORT, LED_PIN, 1)
+
+                end if
+
+			end if
+
+			i = i + 1
+
+		end while
+
+		#call system_endpoint_set_watermarks(system_endpoint_uart1, 9, $ff) # enable RX watermark
+        #call attributes_write(xgatt_sensor, 0, in_len, in(0:in_len)) # Write data to GATT
     end if
 end
 

@@ -12,9 +12,11 @@ set autoindent
 set background=dark
 set backspace=indent,eol,start
 set clipboard=unnamed
+set hlsearch
 set laststatus=2
 set ruler
 set showmatch
+set softtabstop=4
 set statusline=%<%F%h%m%r\ [%{&ff}]\ (%{strftime(\"%H:%M\ %d/%m/%Y\",getftime(expand(\"%:p\")))})%=%l,%c%V\ %P
 set tabstop=4
 set visualbell
@@ -51,6 +53,7 @@ badd +2 bgs60/TODO.md
 badd +1 ble113-firmware-examples/Pairing/Pairing.hex
 badd +1 ble113-firmware-examples/Pairing/Pairing.ota
 badd +0 bgs60/ble60.bgproj
+badd +12 ble113-firmware-examples/Blinky/Blinky.bgs
 argglobal
 silent! argdel *
 argadd ble113-firmware-examples/Pairing/Pairing.bgproj
@@ -204,11 +207,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 2 - ((1 * winheight(0) + 5) / 11)
+let s:l = 3 - ((2 * winheight(0) + 5) / 11)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-2
+3
 normal! 0
 wincmd w
 argglobal
@@ -297,7 +300,7 @@ setlocal shiftwidth=8
 setlocal noshortname
 setlocal signcolumn=auto
 setlocal nosmartindent
-setlocal softtabstop=0
+setlocal softtabstop=4
 setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
@@ -306,8 +309,8 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'conf'
-setlocal syntax=conf
+if &syntax != 'python'
+setlocal syntax=python
 endif
 setlocal tabstop=4
 setlocal tagcase=
@@ -321,12 +324,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 76 - ((19 * winheight(0) + 19) / 38)
+let s:l = 154 - ((19 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-76
-normal! 0
+154
+normal! 013|
 wincmd w
 argglobal
 edit bgs60/gatt.xml
@@ -438,12 +441,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 10) / 21)
+let s:l = 155 - ((18 * winheight(0) + 10) / 21)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+155
+normal! 03|
 wincmd w
 argglobal
 edit bgs60/hardware.xml
@@ -555,11 +558,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 6 - ((5 * winheight(0) + 6) / 12)
+let s:l = 5 - ((4 * winheight(0) + 6) / 12)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-6
+5
 normal! 05|
 wincmd w
 argglobal
@@ -679,6 +682,7 @@ normal! zt
 1
 normal! 0
 wincmd w
+2wincmd w
 exe '1resize ' . ((&lines * 11 + 26) / 53)
 exe 'vert 1resize ' . ((&columns * 105 + 105) / 211)
 exe '2resize ' . ((&lines * 38 + 26) / 53)
@@ -815,12 +819,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 21 - ((7 * winheight(0) + 25) / 50)
+let s:l = 86 - ((19 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
-normal! 07|
+86
+normal! 014|
 wincmd w
 argglobal
 edit ble113-firmware-examples/Uart/UART.bgs
@@ -932,12 +936,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 8 - ((7 * winheight(0) + 25) / 50)
+let s:l = 119 - ((36 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-8
-normal! 0
+119
+normal! 081|
 wincmd w
 argglobal
 edit hid_over_gatt_keyboard/hid_over_gatt_keyboard.bgs
@@ -1049,12 +1053,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 83 - ((31 * winheight(0) + 25) / 50)
+let s:l = 23 - ((22 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-83
-normal! 07|
+23
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 70 + 105) / 211)
 exe 'vert 2resize ' . ((&columns * 70 + 105) / 211)
@@ -1186,7 +1190,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 50 - ((49 * winheight(0) + 25) / 50)
+let s:l = 50 - ((39 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1304,11 +1308,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 8 - ((7 * winheight(0) + 25) / 50)
+let s:l = 50 - ((39 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-8
+50
 normal! 0
 wincmd w
 argglobal
@@ -1422,12 +1426,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 50 - ((24 * winheight(0) + 25) / 50)
+let s:l = 44 - ((8 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-50
-normal! 0
+44
+normal! 037|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 70 + 105) / 211)
 exe 'vert 2resize ' . ((&columns * 70 + 105) / 211)
@@ -1559,11 +1563,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 25) / 50)
+let s:l = 4 - ((3 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
+4
 normal! 0
 wincmd w
 argglobal
@@ -1795,11 +1799,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 8 - ((7 * winheight(0) + 25) / 50)
+let s:l = 6 - ((5 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-8
+6
 normal! 05|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 70 + 105) / 211)
@@ -1931,11 +1935,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 25) / 50)
+let s:l = 8 - ((7 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
+8
 normal! 0
 wincmd w
 argglobal
